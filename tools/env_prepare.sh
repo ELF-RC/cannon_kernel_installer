@@ -11,15 +11,7 @@ CMDLINEADD=$(grep '^cmdlineadd=' "$STARTFILE" | cut -d'=' -f2-)
 CMDLINEREMOVE=$(grep '^cmdlineremove=' "$STARTFILE" | cut -d'=' -f2-)
 WORKDIR=$MODPATH/workdir
 mkdir $WORKDIR
-
-# print kernel name as a title
-TITLE=" $(grep '^name=' $STARTFILE | cut -d '=' -f 2) Installer "
-linelen=$(echo -n "$TITLE" | wc -c)
-len=$linelen
-bar=$(printf "%${len}s" | tr ' ' '*')
-ui_print "$bar"
-ui_print "$TITLE"
-ui_print "$bar"
+ui_print " "
 
 # self check
 if [ -e $MODPATH/kernel ] || [ -e $MODPATH/*Image* ] || [ -e $MODPATH/*dtb ] || [ -n "$CMDLINEOVERWRITE" ] || [ -n "$CMDLINEADD" ] || [ -n "$CMDLINEREMOVE" ]; then
@@ -34,6 +26,20 @@ mount /data 2>/dev/null
 if grep ' /data ' /proc/mounts | grep -vq 'tmpfs'; then
     touch /data/.rw && rm /data/.rw && DATA=true
 fi
+
+print_kernel_info(){
+    ui_print "**************************************"
+    ui_print "MI MT6853T Custom Kernel Installer"
+    ui_print "**************************************"
+    ui_print " "
+}
+
+
+exec_do() {
+    ui_print "Simple Kernel Installer by KNKJ55 @ Github"
+    ui_print "Build Kernel by ELF-RC @ Github"
+    ui_print " "
+}
 
 # devicename check (from anykernel3)
 check_devicename() {
@@ -139,3 +145,4 @@ install() {
     fi
     ui_print "- Install Finished!"
 }
+
